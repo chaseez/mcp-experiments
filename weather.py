@@ -56,7 +56,7 @@ async def get_alerts(state: str) -> str:
     return "\n---\n".join(alerts)
 
 @mcp.resource("weather://forecast/{latitude},{longitude}")
-async def get_forecast(latitude: float, longitude: float) -> str:
+async def get_forecast(latitude: float=37.7749, longitude: float=-122.4194) -> str:
     """Get weather forecast for a location.
 
     Args:
@@ -91,6 +91,14 @@ Forecast: {period['detailedForecast']}
 
     return "\n---\n".join(forecasts)
 
+@mcp.prompt()
+def get_weather_prompt(latitude: float, longitude: float) -> str:
+    return (
+        f"Check the current weather at the following coordinates:\n"
+        f"Latitude: {latitude}\n"
+        f"Longitude: {longitude}\n"
+        f"Please use the weather tool to retrieve the latest conditions."
+    )
 
 if __name__ == "__main__":
     # Initialize and run the server
